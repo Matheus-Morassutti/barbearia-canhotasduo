@@ -3,7 +3,6 @@ const SUPABASE_KEY = 'sb_publishable_F8sl92FjolI59mFI83IK7g_f-cGxkIW';
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // --- PROTEÇÃO DE ROTA ---
-// Se estiver no admin, verifica se está logado como admin
 async function verificarAcesso() {
     const { data: { user } } = await _supabase.auth.getUser();
     const noAdminPage = window.location.pathname.includes('admin.html');
@@ -21,13 +20,26 @@ verificarAcesso();
 // --- NAVEGAÇÃO ---
 function showSection(sectionId) {
     document.querySelectorAll('.dashboard-section').forEach(sec => sec.style.display = 'none');
-    document.getElementById('sec-' + sectionId).style.display = 'block';
+    const targetSection = document.getElementById('sec-' + sectionId);
+    if (targetSection) targetSection.style.display = 'block';
     
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
 }
 
-// --- LOGIN (Apenas no index.html) ---
+function mostrarTelaRegistro() {
+    document.getElementById('auth-container').style.display = 'none';
+    document.getElementById('registro-container').style.display = 'block';
+}
+
+function voltarLogin() {
+    document.getElementById('registro-container').style.display = 'none';
+    document.getElementById('auth-container').style.display = 'block';
+}
+
+// --- LOGIN ---
 async function login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -42,9 +54,74 @@ async function login() {
         } else {
             document.getElementById('auth-container').style.display = 'none';
             document.getElementById('area-cliente').style.display = 'block';
+            // Preenche automaticamente os dados que seu amigo vai salvar no banco
             document.getElementById('cliente_nome').value = data.user.user_metadata.full_name || "";
             document.getElementById('cliente_telefone').value = data.user.user_metadata.phone || "";
         }
+    }
+}
+
+// --- CADASTRO (ORDEM: NOME, TELEFONE, EMAIL, SENHA, CONFIRMAÇÃO) ---
+async function registrarNovoUsuario() {
+    const nome = document.getElementById('reg-nome').value;
+    const telefone = document.getElementById('reg-telefone').value;
+    const email = document.getElementById('reg-email').value;
+    const senha = document.getElementById('reg-senha').value;
+    const senhaConfirma = document.getElementById('reg-senha-confirma').value;
+
+    if (!nome || !telefone || !email || !senha || !senhaConfirma) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
+
+    if (senha !== senhaConfirma) {
+        alert("As senhas não coincidem!");
+        return;
+    }
+
+    const { error } = await _supabase.auth.signUp({
+        email, 
+        password: senha,
+        options: { 
+            data: { 
+                full_name: nome, 
+                phone: telefone 
+            } 
+        }
+    });
+
+    if (error) {
+        alert("Erro ao criar conta: " + error.message);
+    } else { 
+        alert("Conta criada com sucesso!"); 
+        voltarLogin(); 
+    }
+}
+
+// --- AGENDA (CLIENTE) ---
+async function agendar() {
+    const nome = document.getElementById('cliente_nome').value;
+    const telefone = document.getElementById('cliente_telefone').value;
+    const servico = document.getElementById('servico').value;
+    const data_hora = document.getElementById('data_hora').value;
+
+    if (!data_hora) {
+        alert("Selecione uma data e horário.");
+        return;
+    }
+
+    const { error } = await _supabase.from('agendamentos').insert([{ 
+        cliente_nome: nome, 
+        cliente_telefone: telefone, 
+        servico, 
+        data_hora 
+    }]);
+
+    if (error) {
+        alert("Erro ao agendar: " + error.message);
+    } else { 
+        alert("Agendado com sucesso!"); 
+        location.reload(); 
     }
 }
 
@@ -66,7 +143,7 @@ async function carregarAgenda() {
     if (!lista) return;
 
     if (error || !data || data.length === 0) {
-        lista.innerHTML = "<p style='color:#a8a8a8; padding: 20px;'>Nenhum corte agendado para este dia.</p>";
+        lista.innerHTML = "<p style='color:#a8a8a8; padding: 20px;'>Nenhum corte agendado.</p>";
         return;
     }
 
@@ -83,54 +160,15 @@ async function carregarAgenda() {
     `).join('');
 }
 
-// --- OUTRAS FUNÇÕES ---
+async function concluirAgendamento(id) {
+    if(confirm("Deseja concluir este atendimento?")) {
+        const { error } = await _supabase.from('agendamentos').delete().eq('id', id);
+        if (error) alert("Erro ao concluir: " + error.message);
+        else carregarAgenda();
+    }
+}
+
 async function logout() {
     await _supabase.auth.signOut();
     window.location.href = 'index.html';
-}
-
-function mostrarTelaRegistro() {
-    document.getElementById('auth-container').style.display = 'none';
-    document.getElementById('registro-container').style.display = 'block';
-}
-
-function voltarLogin() {
-    document.getElementById('registro-container').style.display = 'none';
-    document.getElementById('auth-container').style.display = 'block';
-}
-
-async function registrarNovoUsuario() {
-    const nome = document.getElementById('reg-nome').value;
-    const email = document.getElementById('reg-email').value;
-    const senha = document.getElementById('reg-senha').value;
-    const telefone = document.getElementById('reg-telefone').value;
-
-    const { error } = await _supabase.auth.signUp({
-        email, password: senha,
-        options: { data: { full_name: nome, phone: telefone } }
-    });
-
-    if (error) alert(error.message);
-    else { alert("Conta criada!"); voltarLogin(); }
-}
-
-async function agendar() {
-    const nome = document.getElementById('cliente_nome').value;
-    const telefone = document.getElementById('cliente_telefone').value;
-    const servico = document.getElementById('servico').value;
-    const data_hora = document.getElementById('data_hora').value;
-
-    const { error } = await _supabase.from('agendamentos').insert([{ 
-        cliente_nome: nome, cliente_telefone: telefone, servico, data_hora 
-    }]);
-
-    if (error) alert(error.message);
-    else { alert("Agendado!"); location.reload(); }
-}
-
-async function concluirAgendamento(id) {
-    if(confirm("Concluir corte?")) {
-        await _supabase.from('agendamentos').delete().eq('id', id);
-        carregarAgenda();
-    }
 }

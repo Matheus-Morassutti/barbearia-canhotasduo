@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -8,7 +8,6 @@
 }
 
 body {
-    /* Fundo preto suave do modo escuro do Instagram */
     background-color: #000000;
     display: flex;
     justify-content: center;
@@ -17,65 +16,74 @@ body {
     padding: 20px;
 }
 
-#auth-container, #area-cliente, #area-admin {
-    /* Container com bordas finas e fundo cinza escuro */
+/* --- CONTAINERS PRINCIPAIS --- */
+#auth-container, #registro-container, #area-cliente, #area-admin {
     background-color: #000000;
     width: 100%;
-    max-width: 400px;
-    padding: 40px 30px;
+    max-width: 380px;
+    padding: 48px 32px; /* Aumentado para respirar melhor */
     border-radius: 12px;
     text-align: center;
-    border: 1px solid #262626; /* Cor da borda padrão do Instagram */
+    border: 1px solid #262626;
 }
 
+/* --- LOGO E TÍTULOS --- */
 .logo-circle {
-    /* Gradiente oficial do Instagram */
     background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-    width: 80px;
-    height: 80px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 20px;
+    margin: 0 auto 24px;
     color: white;
-    font-size: 35px;
+    font-size: 32px;
 }
 
 h2 {
     color: #ffffff;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
-    margin-bottom: 10px;
-    letter-spacing: -1px;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
 }
 
 .subtitle {
     color: #a8a8a8;
     font-size: 14px;
-    margin-bottom: 30px;
+    margin-bottom: 32px; /* Espaço maior antes dos inputs */
+    line-height: 1.4;
+}
+
+/* --- FORMULÁRIOS --- */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espaçamento uniforme entre inputs */
+    margin-bottom: 16px;
 }
 
 input, select {
     width: 100%;
     background-color: #121212;
     border: 1px solid #363636;
-    border-radius: 6px;
-    padding: 12px 15px;
+    border-radius: 8px;
+    padding: 14px 16px; /* Mais alto para facilitar o clique */
     color: white;
-    margin-bottom: 10px;
     font-size: 14px;
+    transition: border-color 0.2s;
 }
 
 input:focus {
-    border-color: #a8a8a8;
+    border-color: #555555;
     outline: none;
 }
 
+/* --- BOTÕES --- */
 button {
     width: 100%;
-    padding: 12px;
-    /* Azul clássico de botões do Instagram */
+    padding: 14px;
     background: #0095f6;
     border: none;
     border-radius: 8px;
@@ -83,22 +91,33 @@ button {
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: 0.2s;
+    margin-top: 8px;
+    transition: background 0.2s;
 }
 
 button:hover {
     background: #1877f2;
-    transform: none;
 }
 
+button.secondary {
+    background: transparent;
+    color: #0095f6 !important;
+    margin-top: 12px;
+}
+
+button.secondary:hover {
+    background: rgba(0, 149, 246, 0.1);
+}
+
+/* --- DIVISORES --- */
 .divider {
     display: flex;
     align-items: center;
     color: #8e8e8e;
-    margin: 20px 0;
-    font-size: 13px;
-    font-weight: 600;
+    margin: 24px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .divider::before, .divider::after {
@@ -106,83 +125,57 @@ button:hover {
     flex: 1;
     height: 1px;
     background: #262626;
-    margin: 0 15px;
+    margin: 0 16px;
 }
 
-/* Estilo dos Cards de Agendamento */
+/* --- DASHBOARD ADMIN --- */
+.admin-body { background: #000; align-items: stretch; padding: 0; }
+.dashboard-layout { display: flex; width: 100%; height: 100vh; }
+
+.sidebar {
+    width: 250px;
+    background: #000;
+    border-right: 1px solid #262626;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 12px;
+}
+
+.sidebar-header { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    margin-bottom: 32px; 
+    padding: 0 12px;
+    color: #fff; 
+}
+
+.sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+
+.nav-item {
+    background: transparent;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    color: #fafafa !important;
+    font-size: 15px;
+    margin-top: 0; /* Remove margem superior padrão */
+    text-align: left;
+}
+
+.nav-item:hover { background: #1a1a1a; }
+.nav-item.active { font-weight: 700; background: #121212; }
+
+/* --- CARDS DE AGENDAMENTO --- */
 .card-agendamento {
-    background: #121212;
-    padding: 15px;
+    background: #000;
+    padding: 16px;
     border-radius: 8px;
     margin-bottom: 12px;
-    text-align: left;
     border: 1px solid #262626;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-.card-agendamento strong { 
-    color: #fff; 
-    display: block; 
-    font-size: 1rem; 
-}
-
-.card-agendamento span { 
-    color: #0095f6; 
-    font-size: 0.9em; 
-    font-weight: 600; 
-}
-
-.card-agendamento small { 
-    color: #a8a8a8; 
-    display: block; 
-    margin-top: 4px; 
-}
-
-.btn-concluir {
-    width: 35px !important;
-    height: 35px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    background: #0095f6 !important;
-    border-radius: 50% !important;
-}
-
-/* Layout do Dashboard */
-.admin-body { background: #050505; align-items: stretch; padding: 0; }
-.dashboard-layout { display: flex; width: 100vw; height: 100vh; }
-
-.sidebar {
-    width: 260px;
-    background: #000;
-    border-right: 1px solid #262626;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
-.sidebar-header { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; color: #fff; font-weight: 700; }
-.mini-logo { background: #0095f6; width: 35px; height: 35px; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 14px; }
-
-.sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-.nav-item {
-    background: transparent;
-    box-shadow: none;
-    text-transform: none;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    color: #a8a8a8 !important;
-    font-size: 15px;
-}
-.nav-item:hover, .nav-item.active { background: #121212; color: #fff !important; }
-.nav-item i { width: 18px; }
-
-.main-content { flex: 1; padding: 40px; overflow-y: auto; background: #000; }
-.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-#filtro-data { width: auto; margin-bottom: 0; }
-
-.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-.price-item { background: #121212; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; margin-bottom: 10px; border: 1px solid #262626; color: #fff; }

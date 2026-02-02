@@ -30,9 +30,10 @@
 
         <div class="input-group">
             <input type="text" id="reg-nome" placeholder="👤 Nome Completo">
+            <input type="tel" id="reg-telefone" placeholder="📱 WhatsApp (ex: 41999999999)">
             <input type="email" id="reg-email" placeholder="✉ Seu e-mail">
             <input type="password" id="reg-senha" placeholder="🔒 Crie uma senha">
-            <input type="tel" id="reg-telefone" placeholder="📱 WhatsApp (ex: 41999999999)">
+            <input type="password" id="reg-senha-confirma" placeholder="🔒 Confirme sua senha">
         </div>
         
         <button onclick="registrarNovoUsuario()">Finalizar Cadastro</button>
@@ -56,13 +57,6 @@
         
         <button onclick="agendar()">Agendar agora</button>
         <button onclick="location.reload()" class="secondary" style="margin-top: 20px;">Sair</button>
-    </div>
-
-    <div id="area-admin" style="display: none;">
-        <h2>Minha Agenda</h2>
-        <p class="subtitle">Próximos clientes do dia</p>
-        <div id="lista-agendamentos"></div>
-        <button onclick="location.reload()" class="secondary" style="margin-top: 20px;">SAIR DO PAINEL</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
