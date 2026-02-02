@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Canhotas Barber</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="admin-body">
+    <div id="dashboard" class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="mini-logo">CB</div>
+                <span>Canhotas</span>
+            </div>
+            <nav class="sidebar-nav">
+                <button onclick="showSection('agenda')" class="nav-item active">
+                    <i data-lucide="calendar"></i> Agenda
+                </button>
+                <button onclick="showSection('historico')" class="nav-item">
+                    <i data-lucide="history"></i> Histórico
+                </button>
+                <button onclick="showSection('precos')" class="nav-item">
+                    <i data-lucide="tag"></i> Preços
+                </button>
+            </nav>
+            <button onclick="logout()" class="btn-logout">
+                <i data-lucide="log-out"></i> Sair
+            </button>
+        </aside>
+
+        <main class="main-content">
+            <section id="sec-agenda" class="dashboard-section">
+                <header class="section-header">
+                    <h2>Minha Agenda</h2>
+                    <input type="date" id="filtro-data" onchange="carregarAgenda()">
+                </header>
+                <div id="lista-agendamentos" class="grid-cards"></div>
+            </section>
+
+            <section id="sec-historico" class="dashboard-section" style="display:none;">
+                <h2>Histórico de Cortes</h2>
+                <div id="tabela-historico"></div>
+            </section>
+
+            <section id="sec-precos" class="dashboard-section" style="display:none;">
+                <h2>Configuração de Preços</h2>
+                <div class="price-list">
+                    <div class="price-item"><span>Corte Simples</span> <strong>R$ 35,00</strong></div>
+                    <div class="price-item"><span>Corte + Barba</span> <strong>R$ 60,00</strong></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

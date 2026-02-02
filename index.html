@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canhotas Barber Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="auth-container">
+        <div class="logo-circle">✂</div>
+        <h2>Canhotas Barber Shop</h2>
+        <p class="subtitle">Sistema Premium de Agendamentos</p>
+
+        <div class="input-group">
+            <input type="email" id="email" placeholder="✉ Seu e-mail">
+            <input type="password" id="password" placeholder="🔒 Sua senha">
+        </div>
+        
+        <button onclick="login()">➜ Entrar</button>
+        <div class="divider">ou</div>
+        <button onclick="mostrarTelaRegistro()" class="secondary">👤 Criar Minha Conta</button>
+    </div>
+
+    <div id="registro-container" style="display: none;">
+        <div class="logo-circle">👤</div>
+        <h2>Criar Conta</h2>
+        <p class="subtitle">Cadastre-se para agendar</p>
+
+        <div class="input-group">
+            <input type="text" id="reg-nome" placeholder="👤 Nome Completo">
+            <input type="email" id="reg-email" placeholder="✉ Seu e-mail">
+            <input type="password" id="reg-senha" placeholder="🔒 Crie uma senha">
+            <input type="tel" id="reg-telefone" placeholder="📱 WhatsApp (ex: 41999999999)">
+        </div>
+        
+        <button onclick="registrarNovoUsuario()">Finalizar Cadastro</button>
+        <button onclick="voltarLogin()" class="secondary" style="margin-top: 10px;">Voltar ao Login</button>
+    </div>
+
+    <div id="area-cliente" style="display: none;">
+        <h2>Marcar Horário</h2>
+        <p class="subtitle">Garanta seu estilo hoje</p>
+        
+        <input type="text" id="cliente_nome" placeholder="Seu Nome">
+        <input type="tel" id="cliente_telefone" placeholder="Seu WhatsApp">
+        
+        <select id="servico">
+            <option value="Corte Degradê">Corte Degradê - R$ 50</option>
+            <option value="Barba">Barba - R$ 30</option>
+            <option value="Cabelo e Barba">Completo - R$ 70</option>
+        </select>
+
+        <input type="datetime-local" id="data_hora">
+        
+        <button onclick="agendar()">Agendar agora</button>
+        <button onclick="location.reload()" class="secondary" style="margin-top: 20px;">Sair</button>
+    </div>
+
+    <div id="area-admin" style="display: none;">
+        <h2>Minha Agenda</h2>
+        <p class="subtitle">Próximos clientes do dia</p>
+        <div id="lista-agendamentos"></div>
+        <button onclick="location.reload()" class="secondary" style="margin-top: 20px;">SAIR DO PAINEL</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
